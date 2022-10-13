@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,7 @@ Route::apiResources([
     'products' => ProductController::class,
     'users' => UserController::class,
     'category' => CategoryController::class,
+    'order' => OrderController::class,
 ]);
 
 Route::post('/auth/register', [AuthController::class, 'createUser']);
