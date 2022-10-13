@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\ProductResource;
 
 class OrderResource extends JsonResource
 {
@@ -20,6 +21,7 @@ class OrderResource extends JsonResource
             'status' => $this->status,
             'comment' => $this->comment,
             'address'=> $this->address,
+            'products'=> ProductResource::collection($this->product),
         ];
     }
 }
