@@ -6,7 +6,8 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ProductRequest extends FormRequest
+
+class CategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +29,6 @@ class ProductRequest extends FormRequest
         return [
             'name' => 'required|min:3',
             'description' => 'nullable',
-            'in_stick' => 'integer',
-            'category_id'=> 'integer',
         ];
     }
 
