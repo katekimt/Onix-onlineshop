@@ -21,6 +21,7 @@ class ProductResource extends JsonResource
             'in_stick'=> $this->in_stick,
             'rating' =>$this->rating,
             'category_id'=>$this->category_id,
+            'price'=>$this->price,
 
         ];
     }

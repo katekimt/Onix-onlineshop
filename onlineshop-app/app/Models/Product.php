@@ -22,6 +22,7 @@ class Product extends Model
         'description',
         'in_stick',
         'category_id',
+        'price',
     ];
 
     public function category()

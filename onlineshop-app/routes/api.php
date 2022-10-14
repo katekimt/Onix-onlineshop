@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,8 @@ Route::apiResources([
 
 Route::post('/auth/register', [AuthController::class, 'createUser']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
-
+Route::get('/cart', [CartController::class, 'cartList']);
+Route::post('/cart', [CartController::class, 'addToCart']);
+Route::post('/update-cart', [CartController::class, 'updateCart']);
+Route::post('/remove', [CartController::class, 'removeCart']);
+Route::post('/clear', [CartController::class, 'clearAllCart']);

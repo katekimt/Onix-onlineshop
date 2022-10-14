@@ -30,6 +30,7 @@ class ProductRequest extends FormRequest
             'description' => 'nullable',
             'in_stick' => 'integer',
             'category_id'=> 'integer',
+            'price'=>'integer',
         ];
     }
 
