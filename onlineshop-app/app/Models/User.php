@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Order;
+use App\Enums\Role;
+
 
 class User extends Authenticatable
 {
@@ -43,11 +45,18 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'role' => Role::class,
     ];
 
     public function orders(){
         return $this->hasMany('App\Models\Order');
     }
 
+    public function isAdmin(): bool{
+        return $this->role === Role::ADMIN;
+    }
 
+    public function isUser(): bool{
+        return $this->role === Role::USER;
+    }
 }

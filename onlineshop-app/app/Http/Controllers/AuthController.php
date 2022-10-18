@@ -35,13 +35,12 @@ class AuthController extends Controller
                     'errors' => $validateUser->errors()
                 ], 401);
             }
+
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-
             ]);
-
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
@@ -64,11 +63,10 @@ class AuthController extends Controller
     public function loginUser(Request $request)
     {
         try {
-            dd($request);
             $validateUser = Validator::make($request->all(),
                 [
                     'email' => 'required|email',
-                    'password' => 'required'
+                    'password' => 'required',
                 ]);
 
             if ($validateUser->fails()) {

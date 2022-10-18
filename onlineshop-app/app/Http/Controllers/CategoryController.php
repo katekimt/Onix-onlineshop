@@ -10,6 +10,10 @@ use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
+    /*public function __construct(){
+        $this->authorizeResource(Category::class);
+    }*/
+
     /**
      * Display a listing of the resource.
      *

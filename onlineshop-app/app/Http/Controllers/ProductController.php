@@ -9,6 +9,10 @@ use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
+
+    /*public function __construct(){
+        $this->authorizeResource(Product::class);
+    }*/
     /**
      * Display a listing of the resource.
      *
@@ -19,15 +23,6 @@ class ProductController extends Controller
         return ProductResource::collection(Product::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -85,6 +80,6 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return response(null, Response::HTTP_NO_CONTENT);
+
     }
 }
