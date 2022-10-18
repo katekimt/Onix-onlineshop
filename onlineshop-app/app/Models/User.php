@@ -48,7 +48,8 @@ class User extends Authenticatable implements JWTSubject
         'role' => Role::class,
     ];
 
-    public function orders(){
+    public function orders()
+    {
         return $this->hasMany('App\Models\Order');
     }
 
@@ -69,11 +70,13 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany('App\Models\Review');
     }
 
-    public function isAdmin(): bool{
+    public function isAdmin(): bool
+    {
         return $this->role === Role::ADMIN;
     }
 
-    public function isUser(): bool{
+    public function isUser(): bool
+    {
         return $this->role === Role::USER;
     }
 

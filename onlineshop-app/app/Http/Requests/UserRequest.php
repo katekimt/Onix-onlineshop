@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3',
-            'email'=> 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email',
             'password' => ['nullable', 'confirmed', 'string', 'min:6', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/'],
         ];
     }
@@ -35,9 +35,9 @@ class UserRequest extends FormRequest
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'data'      => $validator->errors()
+            'success' => false,
+            'message' => 'Validation errors',
+            'data' => $validator->errors()
         ]));
     }
 }

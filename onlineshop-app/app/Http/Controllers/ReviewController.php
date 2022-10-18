@@ -17,8 +17,8 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Product $product
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, Product $product)
@@ -40,9 +40,9 @@ class ReviewController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
-     * @param  \App\Review  $review
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Product $product
+     * @param \App\Review $review
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Product $product, Review $review)
@@ -65,8 +65,8 @@ class ReviewController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product  $product
-     * @param  \App\Review  $review
+     * @param \App\Product $product
+     * @param \App\Review $review
      * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product, Review $review)

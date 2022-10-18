@@ -10,7 +10,7 @@ class ProductResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
@@ -19,11 +19,11 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'in_stick'=> $this->in_stick,
-            'rating' =>$this->rating,
-            'category_id'=>$this->category_id,
-            'price'=>$this->price,
-            'images'=>ProductImageResource::collection($this->images),
+            'in_stick' => $this->in_stick,
+            'rating' => $this->rating,
+            'category_id' => $this->category_id,
+            'price' => $this->price,
+            'images' => ProductImageResource::collection($this->images),
         ];
     }
 }

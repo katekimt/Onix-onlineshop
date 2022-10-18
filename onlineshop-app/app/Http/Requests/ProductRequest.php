@@ -29,17 +29,17 @@ class ProductRequest extends FormRequest
             'name' => 'required|min:3',
             'description' => 'nullable',
             'in_stick' => 'integer',
-            'category_id'=> 'integer',
-            'price'=>'integer',
+            'category_id' => 'integer',
+            'price' => 'integer',
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'success'   => false,
-            'message'   => 'Validation errors',
-            'data'      => $validator->errors()
+            'success' => false,
+            'message' => 'Validation errors',
+            'data' => $validator->errors()
         ]));
     }
 }

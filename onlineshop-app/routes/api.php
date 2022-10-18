@@ -36,10 +36,9 @@ Route::apiResources([
 Route::apiResource('products/{product}/reviews', ReviewController::class)
     ->only('store', 'update', 'destroy');
 
-/*Route::post('/auth/register', [AuthController::class, 'createUser']);
-Route::post('/auth/login', [AuthController::class, 'loginUser']);*/
+
 Route::get('/me', [AuthController::class, 'me']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout']);
-Route::post('/image',[ProductImageController::class, 'imageStore']);
+Route::post('/image', [ProductImageController::class, 'imageStore']);
