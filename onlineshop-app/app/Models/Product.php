@@ -28,5 +28,21 @@ class Product extends Model
     public function images(){
         return $this->hasMany('App\Models\ProductImage');
     }
+
+    /**
+     * Get the reviews of the product.
+     */
+    public function reviews()
+    {
+        return $this->hasMany('App\Models\Review');
+    }
+
+    /**
+     * Get the user that added the product.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }
 

@@ -127,6 +127,8 @@
       <path value="$PROJECT_DIR$/onlineshop-app/vendor/league/event" />
       <path value="$PROJECT_DIR$/onlineshop-app/vendor/league/uri" />
       <path value="$PROJECT_DIR$/onlineshop-app/vendor/darryldecode/cart" />
+      <path value="$PROJECT_DIR$/onlineshop-app/vendor/php-open-source-saver/jwt-auth" />
+      <path value="$PROJECT_DIR$/onlineshop-app/vendor/namshi/jose" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1">

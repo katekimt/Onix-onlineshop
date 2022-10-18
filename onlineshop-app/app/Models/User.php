@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Order;
 use App\Enums\Role;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -52,11 +52,38 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Order');
     }
 
+    /**
+     * Get the products the user has added.
+     */
+
+    public function products()
+    {
+        return $this->hasMany('App\Models\Product');
+    }
+
+    /**
+     * Get the reviews the user has made.
+     */
+    public function reviews()
+    {
+        return $this->hasMany('App\Models\Review');
+    }
+
     public function isAdmin(): bool{
         return $this->role === Role::ADMIN;
     }
 
     public function isUser(): bool{
         return $this->role === Role::USER;
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
