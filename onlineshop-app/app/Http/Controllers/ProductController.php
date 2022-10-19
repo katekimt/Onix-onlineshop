@@ -6,6 +6,8 @@ use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
+use App\Http\Requests\ProductRequest;
+use App\Models\User;
 
 class ProductController extends Controller
 {
@@ -34,21 +36,10 @@ class ProductController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-        ]);
-
-        $product = new Product;
-        $product->name = $request->name;
-        $product->description = $request->description;
-        $product->price = $request->price;
-
-        auth()->user()->products()->save($product);
-        return response()->json(['message' => 'Product Added', 'product' => $product]);
+        $created_product = Product::create($request->validated());
+        return response()->json(['message' => 'Product Added', 'product' => $created_product]);
     }
 
     /**
@@ -72,23 +63,13 @@ class ProductController extends Controller
      * @param \App\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
-        if (auth()->user()->id !== $product->user_id) {
-            return response()->json(['message' => 'Action Forbidden']);
+        if (auth()->user()->id == $product->user_id || auth()->user()->isAdmin()) {
+            $product->update($request->validated());
+            return response()->json(['message' => 'Product Updated', 'product' => $product]);
         }
-        $request->validate([
-            'name' => 'required|string',
-            'description' => 'required|string',
-            'price' => 'required|numeric',
-        ]);
-
-        $product->name = $request->name;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->save();
-
-        return response()->json(['message' => 'Product Updated', 'product' => $product]);
+        return response()->json(['message' => 'Action Forbidden']);
     }
 
     /**
@@ -99,10 +80,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        if (auth()->user()->id !== $product->user_id) {
-            return response()->json(['message' => 'Action Forbidden']);
+        if (auth()->user()->id == $product->user_id || auth()->user()->isAdmin()) {
+            $product->delete();
+            return response()->json(null, 204);
         }
-        $product->delete();
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Action Forbidden']);
     }
 }

@@ -26,11 +26,12 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:3',
-            'description' => 'nullable',
+            'name' => 'required|string',
+            'description' => 'nullable|string',
             'in_stick' => 'integer',
             'category_id' => 'integer',
-            'price' => 'integer',
+            'price' => 'required|numeric|min:0',
+            'user_id' => 'numeric',
         ];
     }
 

@@ -23,6 +23,7 @@ class Product extends Model
         'in_stick',
         'category_id',
         'price',
+        'user_id'
     ];
 
     public function images()
