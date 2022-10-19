@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Product;
+use App\Http\Requests\ReviewRequest;
+use App\Models\User;
 
 
 class ReviewController extends Controller
@@ -21,18 +23,13 @@ class ReviewController extends Controller
      * @param \App\Product $product
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Product $product)
+    public function store(ReviewRequest $request, Product $product)
     {
-        $request->validate([
-            'review' => 'required|string',
-            'rating' => 'required|numeric|min:0|max:5',
-        ]);
-
+        $request->validated();
         $review = new Review;
         $review->review = $request->review;
         $review->rating = $request->rating;
         $review->user_id = auth()->user()->id;
-
         $product->reviews()->save($review);
         return response()->json(['message' => 'Review Added', 'review' => $review]);
     }
@@ -45,21 +42,13 @@ class ReviewController extends Controller
      * @param \App\Review $review
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product, Review $review)
+    public function update(ReviewRequest $request, Product $product, Review $review)
     {
-        if (auth()->user()->id !== $review->user_id) {
-            return response()->json(['message' => 'Action Forbidden']);
+        if (auth()->user()->id == $product->user_id || auth()->user()->isAdmin()) {
+            $review->update($request->validated());
+            return response()->json(['message' => 'Review Updated', 'review' => $review]);
         }
-        $request->validate([
-            'review' => 'required|string',
-            'rating' => 'required|numeric|min:0|max:5',
-        ]);
-
-        $review->review = $request->review;
-        $review->rating = $request->rating;
-        $review->save();
-
-        return response()->json(['message' => 'Review Updated', 'review' => $review]);
+        return response()->json(['message' => 'Action Forbidden']);
     }
 
     /**
@@ -71,10 +60,10 @@ class ReviewController extends Controller
      */
     public function destroy(Product $product, Review $review)
     {
-        if (auth()->user()->id !== $review->user_id) {
-            return response()->json(['message' => 'Action Forbidden']);
+        if (auth()->user()->id == $product->user_id || auth()->user()->isAdmin()) {
+            $review->delete();
+            return response()->json(null, 204);
         }
-        $review->delete();
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Action Forbidden']);
     }
 }
