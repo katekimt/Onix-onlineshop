@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ProductImage;
+use App\Models\Cart;
 
 class Product extends Model
 {
@@ -45,6 +46,10 @@ class Product extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function carts(){
+        return $this->belongsToMany('App\Models\Cart')->withTimestamps();
     }
 }
 

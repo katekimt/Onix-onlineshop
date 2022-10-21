@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Enums\Role;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use App\Models\Cart;
 
 
 class User extends Authenticatable implements JWTSubject
@@ -88,5 +89,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function cart()
+    {
+        return $this->hasOne('App\Models\Cart');
     }
 }

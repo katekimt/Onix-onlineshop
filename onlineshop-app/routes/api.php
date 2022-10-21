@@ -11,6 +11,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ReviewController;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,6 +32,7 @@ Route::apiResources([
     'users' => UserController::class,
     'category' => CategoryController::class,
     'order' => OrderController::class,
+    'carts' => CartController::class,
 ]);
 
 Route::apiResource('products/{product}/reviews', ReviewController::class)
