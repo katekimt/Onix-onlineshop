@@ -23,11 +23,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('user:id,name')
+        /*$products = Product::with('user:id,name')
             ->withCount('reviews')
             ->latest()
             ->paginate(20);
-        return response()->json(['products' => $products]);
+        return response()->json(['products' => $products]);*/
+        return ProductResource::collection(Product::all());
     }
 
     /**

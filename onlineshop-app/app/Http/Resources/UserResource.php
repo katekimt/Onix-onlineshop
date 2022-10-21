@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\CartResource;
+use App\Http\Resources\QuestionResource;
 
 class UserResource extends JsonResource
 {
@@ -23,6 +24,8 @@ class UserResource extends JsonResource
             'role' => $this->role,
             'orders' => OrderResource::collection($this->orders),
             'cart' => $this->cart,
+            'questions' => QuestionResource::collection($this->questions),
+            'answers' => AnswerResource::collection($this->answers),
         ];
     }
 }

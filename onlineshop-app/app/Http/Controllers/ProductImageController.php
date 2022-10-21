@@ -12,7 +12,6 @@ class ProductImageController extends Controller
 {
     public function imageStore(ProductImageRequest $request)
     {
-
         $validatedData = $request->validated();
         $validatedData['image'] = $request->file('image')->store('image');
         $data = ProductImage::create($validatedData);

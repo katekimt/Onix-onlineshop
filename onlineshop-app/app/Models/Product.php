@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ProductImage;
 use App\Models\Cart;
+use App\Models\Question;
 
 class Product extends Model
 {
@@ -49,7 +50,11 @@ class Product extends Model
     }
 
     public function carts(){
-        return $this->belongsToMany('App\Models\Cart')->withTimestamps();
+        return $this->belongsToMany('App\Models\Cart');
+    }
+
+    public function questions(){
+        return $this->hasMany(Question::class);
     }
 }
 

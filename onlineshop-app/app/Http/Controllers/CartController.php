@@ -14,7 +14,7 @@ class CartController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->except(['index']);
     }
 
     /**
@@ -35,7 +35,6 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'quantity' => 'required|numeric',
             'product_id' => 'integer|required|required',
@@ -70,7 +69,6 @@ class CartController extends Controller
         if (auth()->user()->id === $cart->user_id) {
             return new CartResource(Cart::findOrFail($cart->id));
         }
-
         return response()->json(['message' => 'Action Forbidden']);
 
     }
@@ -119,7 +117,11 @@ class CartController extends Controller
      */
     public function destroy(Cart $cart)
     {
-        $cart->delete();
-        return response(null, Response::HTTP_NO_CONTENT);
+        if (auth()->user()->id === $cart->user_id) {
+            DB::table('cart_product')->where('cart_id', "=", $cart->id)->delete();
+            $cart->delete();
+            return response(null, Response::HTTP_NO_CONTENT);
+        }
+        return response()->json(['message' => 'Action Forbidden']);
     }
 }

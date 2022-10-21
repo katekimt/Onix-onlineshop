@@ -10,6 +10,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\QuestionController;
 
 
 /*
@@ -33,6 +35,8 @@ Route::apiResources([
     'category' => CategoryController::class,
     'order' => OrderController::class,
     'carts' => CartController::class,
+    'answers' => AnswerController::class,
+    'question' => QuestionController::class,
 ]);
 
 Route::apiResource('products/{product}/reviews', ReviewController::class)

@@ -10,6 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Enums\Role;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use App\Models\Cart;
+use App\Models\Question;
+use App\Models\Answer;
 
 
 class User extends Authenticatable implements JWTSubject
@@ -94,5 +96,13 @@ class User extends Authenticatable implements JWTSubject
     public function cart()
     {
         return $this->hasOne('App\Models\Cart');
+    }
+
+    public function questions(){
+        return $this->hasMany(Question::class);
+    }
+
+    public function answers(){
+        return $this->hasMany(Answer::class);
     }
 }
