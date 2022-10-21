@@ -18,7 +18,7 @@ class CartPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +30,7 @@ class CartPolicy
      */
     public function view(User $user, Cart $cart)
     {
-        //
+        return $user->isUser() && $cart->user_id === $user->id || $user->isAdmin();
     }
 
     /**
@@ -41,7 +41,7 @@ class CartPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->isUser();
     }
 
     /**
@@ -53,7 +53,7 @@ class CartPolicy
      */
     public function update(User $user, Cart $cart)
     {
-        //
+        return $user->isUser() && $cart->user_id === $user->id;
     }
 
     /**
@@ -65,7 +65,7 @@ class CartPolicy
      */
     public function delete(User $user, Cart $cart)
     {
-        //
+        return $user->isUser() && $cart->user_id === $user->id;
     }
 
     /**

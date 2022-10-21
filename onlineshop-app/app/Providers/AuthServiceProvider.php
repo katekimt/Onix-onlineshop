@@ -13,6 +13,8 @@ use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\Passport;
+use App\Models\Cart;
+use App\Policies\CartPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         Category::class => CategoryPolicy::class,
         Order::class => OrderPolicy::class,
         User::class => UserPolicy::class,
+        Cart::class => CartPolicy::class,
     ];
 
     /**

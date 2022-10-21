@@ -10,9 +10,9 @@ use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
-    public function __construct(){
+    /*public function __construct(){
         $this->authorizeResource(Order::class);
-    }
+    }*/
 
     /**
      * Display a listing of the resource.

@@ -12,6 +12,11 @@ use App\Models\Product;
 
 class CartController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +24,6 @@ class CartController extends Controller
      */
     public function index()
     {
-
         return CartResource::collection(Cart::all());
     }
 
@@ -31,14 +35,14 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
-            'user_id' => 'integer|required|required',
             'quantity' => 'required|numeric',
             'product_id' => 'integer|required|required',
         ]);
 
         $create_cart = Cart::create([
-            'user_id' => $request->user_id,
+            'user_id' => auth()->user()->id,
             'quantity' => $request->quantity,
         ]);
 
@@ -61,9 +65,14 @@ class CartController extends Controller
      * @param \App\Models\Cart $cart
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Cart $cart)
     {
-        return new CartResource(Cart::findOrFail($id));
+        if (auth()->user()->id === $cart->user_id) {
+            return new CartResource(Cart::findOrFail($cart->id));
+        }
+
+        return response()->json(['message' => 'Action Forbidden']);
+
     }
 
     /**
@@ -73,10 +82,33 @@ class CartController extends Controller
      * @param \App\Models\Cart $cart
      * @return \Illuminate\Http\Response
      */
-    public function update(CartRequest $request, Cart $cart)
+    public function update(Request $request, Cart $cart)
     {
-        $cart->update($request->validated());
-        return new CartResource($cart);
+        if (auth()->user()->id === $cart->user_id) {
+            $old_quantity = $cart->quantity;
+            $old_product_id = $cart->products->keyBy('id')->keys();
+
+            $request->validate([
+                'quantity' => 'required|numeric',
+                'product_id' => 'integer|required|required',
+            ]);
+
+            $cart->update([
+                'quantity' => $request->quantity,
+            ]);
+
+            DB::table('cart_product')
+                ->where('cart_id', $cart->id)
+                ->update(['product_id' => $request->product_id]);
+
+            foreach ($cart->products as $product) {
+                Product::find($old_product_id[0])->increment('in_stick', $old_quantity);
+                Product::find($product->id)->decrement('in_stick', $cart->quantity);
+            }
+            return new CartResource($cart);
+        }
+
+        return response()->json(['message' => 'Action Forbidden']);
     }
 
     /**
