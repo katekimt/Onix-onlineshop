@@ -37,7 +37,7 @@ class CartController extends Controller
     {
         $request->validate([
             'quantity' => 'required|numeric',
-            'product_id' => 'integer|required|required',
+            'product_id' => 'integer|required',
         ]);
 
         $create_cart = Cart::create([

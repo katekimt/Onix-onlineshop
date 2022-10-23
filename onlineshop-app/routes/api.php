@@ -43,6 +43,11 @@ Route::apiResource('products/{product}/reviews', ReviewController::class)
     ->only('store', 'update', 'destroy');
 
 
+
+Route::get('question/{product_id}/product', [QuestionController::class, 'questionOfProduct']);
+Route::post('questions/{id}/answer', [QuestionController::class, 'answerForQuestion']);
+Route::put('answers/{answer}', [QuestionController::class, 'answerUpdate']);
+Route::delete('answers/{answer}', [QuestionController::class, 'answerDelete']);
 Route::get('/me', [AuthController::class, 'me']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
