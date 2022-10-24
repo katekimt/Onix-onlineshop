@@ -26,10 +26,10 @@ class OrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'integer|required',
-            'status' => 'required',
-            'comment' => 'nullable',
-            'address' => 'required'
+            'status' => 'required|string',
+            'comment' => 'nullable|string',
+            'address' => 'required|string',
+            'product_id' => 'required|integer',
         ];
     }
 

@@ -10,7 +10,6 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\QuestionController;
 
 
@@ -35,7 +34,6 @@ Route::apiResources([
     'category' => CategoryController::class,
     'order' => OrderController::class,
     'carts' => CartController::class,
-    'answers' => AnswerController::class,
     'question' => QuestionController::class,
 ]);
 
@@ -43,11 +41,13 @@ Route::apiResource('products/{product}/reviews', ReviewController::class)
     ->only('store', 'update', 'destroy');
 
 
-
 Route::get('question/{product_id}/product', [QuestionController::class, 'questionOfProduct']);
 Route::post('questions/{id}/answer', [QuestionController::class, 'answerForQuestion']);
 Route::put('answers/{answer}', [QuestionController::class, 'answerUpdate']);
 Route::delete('answers/{answer}', [QuestionController::class, 'answerDelete']);
+
+Route::get('orders/orderItem', [OrderController::class, 'getOrderItem']);
+
 Route::get('/me', [AuthController::class, 'me']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
