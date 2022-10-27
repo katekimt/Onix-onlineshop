@@ -30,7 +30,7 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return OrderResource
      */
     public function store(OrderRequest $request)
     {
@@ -42,12 +42,10 @@ class OrderController extends Controller
             'comment' => $request->comment,
             'address' => $request->address,
         ]);
-
         DB::table('product_order')->insert([
             'product_id' => $request->product_id,
             'order_id' => $create_order->id,
         ]);
-
         return new OrderResource($create_order);
     }
 
@@ -55,7 +53,7 @@ class OrderController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Order $order)
     {
@@ -75,7 +73,6 @@ class OrderController extends Controller
     public function update(OrderRequest $request, Order $order)
     {
         if (auth()->user()->id === $order->user_id) {
-
             $request->validated();
             $order->update([
                 'status' => $request->status,
@@ -89,7 +86,6 @@ class OrderController extends Controller
                 ]);
             return new OrderResource($order);
         }
-
         return response()->json(['message' => 'Action Forbidden']);
     }
 
