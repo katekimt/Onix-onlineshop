@@ -3,8 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\ProductResource;
 
 class CartResource extends JsonResource
 {
@@ -16,11 +14,11 @@ class CartResource extends JsonResource
      */
     public function toArray($request)
     {
-       return [
-           'id' => $this->id,
-           'user_id' => $this->user_id,
-           'quantity' => $this->quantity,
-           'products'=> ProductResource::collection($this->products),
-       ];
+        return [
+            'id' => $this->id,
+            'user_id' => $this->user_id,
+            'quantity' => $this->quantity,
+            'products' => ProductResource::collection($this->products),
+        ];
     }
 }

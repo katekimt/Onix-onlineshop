@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Review;
-use Illuminate\Http\Request;
-use App\Http\Resources\ProductResource;
 use App\Http\Requests\ProductRequest;
-use App\Models\User;
+use App\Http\Resources\ProductResource;
+use App\Models\Product;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProductController extends Controller
 {
@@ -18,73 +17,59 @@ class ProductController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
-        /*$products = Product::with('user:id,name')
-            ->withCount('reviews')
-            ->latest()
-            ->paginate(20);
-        return response()->json(['products' => $products]);*/
         return ProductResource::collection(Product::all());
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(ProductRequest $request)
+    public function store(ProductRequest $request): JsonResponse
     {
         $created_product = Product::create($request->validated());
+
         return response()->json(['message' => 'Product Added', 'product' => $created_product]);
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Product $product): JsonResponse
     {
         $product->load(['reviews' => function ($query) {
             $query->latest();
         }, 'user']);
+
         return response()->json(['product' => $product]);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
      */
-    public function update(ProductRequest $request, Product $product)
+    public function update(ProductRequest $request, Product $product): JsonResponse
     {
         if (auth()->user()->id == $product->user_id || auth()->user()->isAdmin()) {
             $product->update($request->validated());
+
             return response()->json(['message' => 'Product Updated', 'product' => $product]);
         }
+
         return response()->json(['message' => 'Action Forbidden']);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param \App\Product $product
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): JsonResponse
     {
         if (auth()->user()->id == $product->user_id || auth()->user()->isAdmin()) {
             $product->delete();
+
             return response()->json(null, 204);
         }
+
         return response()->json(['message' => 'Action Forbidden']);
     }
 }

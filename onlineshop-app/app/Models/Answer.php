@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Question;
-use App\Models\User;
 
 class Answer extends Model
 {
@@ -14,14 +12,16 @@ class Answer extends Model
     protected $fillable = [
         'question_id',
         'user_id',
-        'answer'
+        'answer',
     ];
 
-    public function question(){
+    public function question()
+    {
         return $this->belongsTo(Question::class);
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }

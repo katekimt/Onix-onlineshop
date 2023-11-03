@@ -4,9 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\ProductImage;
-use App\Models\Cart;
-use App\Models\Question;
 
 class Product extends Model
 {
@@ -25,7 +22,7 @@ class Product extends Model
         'in_stick',
         'category_id',
         'price',
-        'user_id'
+        'user_id',
     ];
 
     public function images()
@@ -49,12 +46,13 @@ class Product extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    public function carts(){
+    public function carts()
+    {
         return $this->belongsToMany('App\Models\Cart');
     }
 
-    public function questions(){
+    public function questions()
+    {
         return $this->hasMany(Question::class);
     }
 }
-

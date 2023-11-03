@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-
 class AuthController extends Controller
 {
     public function __construct()
@@ -27,6 +26,7 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
         ]);
         $token = auth()->login($user);
+
         return $this->respondWithToken($token);
     }
 
@@ -37,9 +37,10 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
         $credentials = $request->only(['email', 'password']);
-        if (!$token = auth()->attempt($credentials)) {
+        if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Invalid Credentials'], 401);
         }
+
         return $this->respondWithToken($token);
     }
 
@@ -48,7 +49,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60,
         ]);
     }
 
@@ -70,6 +71,7 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->logout();
+
         return response()->json(['message' => 'Successfully logged out']);
     }
 }

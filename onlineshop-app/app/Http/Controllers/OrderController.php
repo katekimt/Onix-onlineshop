@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
-use App\Http\Resources\OrderResource;
 use App\Http\Requests\OrderRequest;
-use Illuminate\Http\Response;
+use App\Http\Resources\OrderResource;
+use App\Models\Order;
 use App\Models\OrderItem;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -29,7 +29,7 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return OrderResource
      */
     public function store(OrderRequest $request)
@@ -46,13 +46,14 @@ class OrderController extends Controller
             'product_id' => $request->product_id,
             'order_id' => $create_order->id,
         ]);
+
         return new OrderResource($create_order);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Order $order)
@@ -60,14 +61,15 @@ class OrderController extends Controller
         if (auth()->user()->id === $order->user_id || auth()->user()->isAdmin()) {
             return new OrderResource(Order::findOrFail($order->id));
         }
+
         return response()->json(['message' => 'Action Forbidden']);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(OrderRequest $request, Order $order)
@@ -84,25 +86,29 @@ class OrderController extends Controller
                 ->update([
                     'product_id' => $request->product_id,
                 ]);
+
             return new OrderResource($order);
         }
+
         return response()->json(['message' => 'Action Forbidden']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Order $order)
     {
         if (auth()->user()->id === $order->user_id || auth()->user()->isAdmin()) {
-            DB::table('product_order')->where('order_id', "=", $order->id)->delete();
-            DB::table('order_items')->where('order_id', "=", $order->id)->delete();
+            DB::table('product_order')->where('order_id', '=', $order->id)->delete();
+            DB::table('order_items')->where('order_id', '=', $order->id)->delete();
             $order->delete();
+
             return response(null, Response::HTTP_NO_CONTENT);
         }
+
         return response()->json(['message' => 'Action Forbidden']);
     }
 
@@ -117,11 +123,11 @@ class OrderController extends Controller
                 ->where('id', $products_id[$quantity])
                 ->sum('price');
         }
+
         return OrderItem::create([
             'order_id' => $orderId[0],
             'quantity' => $quantity,
             'price' => $price,
         ]);
-
     }
 }

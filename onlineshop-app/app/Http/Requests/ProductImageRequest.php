@@ -27,7 +27,7 @@ class ProductImageRequest extends FormRequest
     {
         return [
             'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            'product_id' => 'nullable'
+            'product_id' => 'nullable',
         ];
     }
 
@@ -36,10 +36,7 @@ class ProductImageRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'success' => false,
             'message' => 'Validation errors',
-            'data' => $validator->errors()
+            'data' => $validator->errors(),
         ]));
     }
 }
-
-
-

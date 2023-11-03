@@ -2,17 +2,12 @@
 
 namespace App\Models;
 
-
+use App\Enums\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Enums\Role;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
-use App\Models\Cart;
-use App\Models\Question;
-use App\Models\Answer;
-
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -59,7 +54,6 @@ class User extends Authenticatable implements JWTSubject
     /**
      * Get the products the user has added.
      */
-
     public function products()
     {
         return $this->hasMany('App\Models\Product');
@@ -98,11 +92,13 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne('App\Models\Cart');
     }
 
-    public function questions(){
+    public function questions()
+    {
         return $this->hasMany(Question::class);
     }
 
-    public function answers(){
+    public function answers()
+    {
         return $this->hasMany(Answer::class);
     }
 }

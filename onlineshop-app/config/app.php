@@ -183,7 +183,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider::class,
 
-
         /*
          * Package Service Providers...
          */

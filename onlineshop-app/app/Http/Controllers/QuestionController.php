@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Question;
-use App\Http\Resources\QuestionResource;
 use App\Http\Requests\QuestionRequest;
+use App\Http\Resources\AnswerResource;
+use App\Http\Resources\QuestionResource;
+use App\Models\Answer;
+use App\Models\Question;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use App\Models\Answer;
-use App\Http\Resources\AnswerResource;
 
 class QuestionController extends Controller
 {
@@ -20,8 +20,6 @@ class QuestionController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index(): Response
     {
@@ -31,7 +29,7 @@ class QuestionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(QuestionRequest $request): Response|QuestionResource
@@ -42,13 +40,14 @@ class QuestionController extends Controller
             'question' => $request->question,
             'product_id' => $request->product_id,
         ]);
+
         return new QuestionResource($create_question);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(Question $question): Response|QuestionResource
@@ -56,14 +55,14 @@ class QuestionController extends Controller
         if (auth()->user()->id == $question->user_id || auth()->user()->isAdmin()) {
             return new QuestionResource(Question::findOrFail($question->id));
         }
+
         return response()->json(['message' => 'Action Forbidden']);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Question $question): Response|QuestionResource
@@ -75,29 +74,30 @@ class QuestionController extends Controller
             $question->update([
                 'question' => $request->question,
             ]);
+
             return new QuestionResource($question);
         }
+
         return response()->json(['message' => 'Action Forbidden']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $id
      */
     public function destroy(Question $question): Response
     {
         if (auth()->user()->id == $question->user_id || auth()->user()->isAdmin()) {
             $question->delete();
+
             return response(null, Response::HTTP_NO_CONTENT);
         }
+
         return response()->json(['message' => 'Action Forbidden']);
     }
 
     /**
-     *
-     * @param int $product_id
      * @return \Illuminate\Http\Response or array
      */
     public function questionOfProduct(int $product_id): Response|array
@@ -109,6 +109,7 @@ class QuestionController extends Controller
             $allQuestions[$i] = $question;
             $i++;
         }
+
         return $allQuestions;
     }
 
@@ -127,7 +128,8 @@ class QuestionController extends Controller
         return new AnswerResource($create_answer);
     }
 
-    public function answerUpdate(Request $request, int $id){
+    public function answerUpdate(Request $request, int $id)
+    {
         $answer = Answer::find($id);
         if (auth()->user()->id == $answer->user_id) {
             $request->validate([
@@ -136,19 +138,22 @@ class QuestionController extends Controller
             $answer->update([
                 'answer' => $request->answer,
             ]);
+
             return new AnswerResource($answer);
         }
+
         return response()->json(['message' => 'Action Forbidden']);
     }
 
-
-    public function answerDelete(int $id){
+    public function answerDelete(int $id)
+    {
         $answer = Answer::find($id);
         if (auth()->user()->id == $answer->user_id || auth()->user()->isAdmin()) {
             $answer->delete();
+
             return response(null, Response::HTTP_NO_CONTENT);
         }
+
         return response()->json(['message' => 'Action Forbidden']);
     }
-
 }
